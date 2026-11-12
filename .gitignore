@@ -11,3 +11,7 @@
 # misc
 *.out
 .DS_Store
+
+# temp verification screenshots
+docs/_verify.png
+_verify.png
