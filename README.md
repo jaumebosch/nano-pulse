@@ -3,15 +3,19 @@
 A lightweight, open-source control panel for a [Nano](https://nano.org) node — real‑time
 confirmations, representative health, and system metrics in one glassy dashboard.
 
-It runs as a single ~10 MB Docker image (static Go binary, `scratch` base) that you drop
+![Nano Pulse dashboard](docs/screenshot.png)
+
+It runs as a single ~8 MB Docker image (static Go binary, `scratch` base) that you drop
 into your node's `docker-compose.yml` so it starts alongside the node. The browser only
 ever talks to **nano‑pulse**, which aggregates a read‑only summary from the node's RPC —
 the node's RPC is never exposed.
 
-> Status: **v0.1** — the dashboard is fully built and the backend serves live node data
-> (sync, blocks, peers, voting weight, quorum, version, uptime, votes as PR). Opened as a
-> static file it runs in a self‑contained **demo mode** with simulated data. The per‑block
-> live confirmation feed (node WebSocket) is on the roadmap.
+> **Status — v0.1.** The dashboard is fully built. Deployed next to a node, the backend
+> polls its RPC and the panel shows **real data**: sync, block count, peers, voting weight,
+> online stake, node version, uptime and votes cast as PR. The confirmation feed and the
+> texture charts animate continuously to keep the panel live; a **real per‑transaction feed
+> via the node WebSocket** is on the roadmap. Opened as a plain static file (no backend), the
+> whole page runs in a self‑contained **demo mode** with simulated data.
 
 ## Features
 
