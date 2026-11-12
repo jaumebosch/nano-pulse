@@ -739,6 +739,7 @@ tick();window.__npDemoTimer=setInterval(tick,reduce?2600:1400);
     if(d==null||typeof d!=="object") return;
     if(d.node_up===false) return; // node unreachable -> stay in demo mode
     go();
+    if(!window.__npFoot){window.__npFoot=1;var f=document.querySelector('[data-i18n="footer1"]');if(f){f.removeAttribute('data-i18n');f.innerHTML='<span style="color:var(--good)">● live</span> · '+(d.label||d.version||'node');}}
     const bc=+d.block_count, cem=+d.cemented;
     if(!isNaN(bc)){ $("#blocks").textContent=fmt(bc); $("#ncem").textContent=fmt(bc); }
     if(!isNaN(cem)){ const lag=Math.max(0,bc-cem); if($("#lag"))$("#lag").textContent=fmt(lag);
