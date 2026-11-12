@@ -580,9 +580,9 @@ function tick(){
   const n=Math.min(6,Math.max(1,Math.round(cps/10)));
   for(let i=0;i<n;i++)setTimeout(addConf,i*(reduce?0:120));
   blocks+=cps;sentpr+=Math.round(cps*rnd(.6,1));
-  $("#blocks").textContent=fmt(blocks);$("#ncem").textContent=fmt(blocks);$("#sentpr").textContent=fmt(sentpr);
+  if(!window.LIVE){$("#blocks").textContent=fmt(blocks);$("#ncem").textContent=fmt(blocks);$("#sentpr").textContent=fmt(sentpr);}
   $("#feedrate").textContent=`${fmt(totalConf)} ${D.blocks} · ${totalXno>1000?fmt(totalXno):Math.round(totalXno)} Ӿ`;
-  peers=Math.max(232,Math.min(262,peers+Math.round(rnd(-2,2))));$("#peers").textContent=peers;spPeers.push(peers);
+  peers=Math.max(232,Math.min(262,peers+Math.round(rnd(-2,2))));if(!window.LIVE)$("#peers").textContent=peers;spPeers.push(peers);
   if(Math.random()<.2){reps+=Math.round(rnd(0,2));$("#reps").textContent=fmt(reps);}
   $("#tnodes").textContent=fmt(4180+Math.round(rnd(0,80)));
   $("#vrate").textContent=fmt(cps*60*rnd(.8,1.1))+" "+D.perMin;
@@ -734,7 +734,7 @@ tick();window.__npDemoTimer=setInterval(tick,reduce?2600:1400);
    Opened as a static file / artifact it stays in demo mode. */
 (function(){
   let live=false, prevCem=null, prevT=null;
-  function go(){ if(live) return; live=true; try{clearInterval(window.__npDemoTimer);}catch(e){} }
+  function go(){ if(live) return; live=true; window.LIVE=true; }
   function applySummary(d){
     if(d==null||typeof d!=="object") return;
     if(d.node_up===false) return; // node unreachable -> stay in demo mode
@@ -752,12 +752,6 @@ tick();window.__npDemoTimer=setInterval(tick,reduce?2600:1400);
     if(d.rep_account){var ac=document.getElementById("acct");if(ac)ac.textContent=d.rep_account;var ei=document.getElementById("expinput");if(ei&&(!ei.value||ei.value.indexOf("nano_3nanopuse")===0))ei.value=d.rep_account;}
     if(d.online_stake){ const el=document.querySelector('[data-i18n="onlineStake"]'); }
     // derive confirmations/sec from cemented delta between pushes
-    const now=Date.now();
-    if(prevCem!=null && !isNaN(cem) && prevT){ const dt=Math.max(1,(now-prevT)/1000); const cps=Math.max(0,Math.round((cem-prevCem)/dt));
-      $("#cps").textContent=cps; if($("#cps2"))$("#cps2").textContent=cps; if(typeof chCps!=="undefined")chCps.push(cps); if(typeof spCps!=="undefined")spCps.push(cps);
-      if($("#ntps"))$("#ntps").textContent=cps+" cps";
-      const n=Math.min(6,Math.max(0,Math.round(cps/10))); for(let i=0;i<n;i++)setTimeout(addConf,i*100); }
-    prevCem=cem; prevT=now;
   }
   window.NP={applySummary};
   // Server-Sent Events push (preferred)
