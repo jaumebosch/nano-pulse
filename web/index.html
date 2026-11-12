@@ -118,7 +118,7 @@ header .hwrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap
 .badge.good{background:color-mix(in srgb,var(--good) 15%,transparent);color:var(--good);border-color:color-mix(in srgb,var(--good) 38%,transparent)}
 .spark{width:100%;height:30px;display:block;margin-top:10px}
 
-.feed-card{display:flex;flex-direction:column;height:480px}
+.feed-card{display:flex;flex-direction:column;min-height:480px}
 .feed{margin-top:12px;display:flex;flex-direction:column;gap:7px;overflow:hidden;flex:1}
 .frow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;
   padding:9px 11px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);
@@ -555,7 +555,7 @@ function addConf(){
     <div style="min-width:0"><div class="facc">${trunc(acc)}</div>
     <div class="fmeta"><span class="fty">${D.types[t]}</span><span>#${((Math.random()*1e6)|0).toString(16).toUpperCase().padStart(5,"0")}</span><span class="fnow">${D.now}</span></div></div>
     <div class="famt">${amt!=null?`<span class="x">Ӿ</span>${famt(amt)}`:`<span style="color:var(--fg-dim)">—</span>`}</div>`;
-  feed.prepend(el);while(feed.children.length>9)feed.lastChild.remove();
+  feed.prepend(el);while(feed.children.length>12)feed.lastChild.remove();
   totalConf++;if(amt)totalXno+=amt;
 }
 
