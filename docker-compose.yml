@@ -1,0 +1,17 @@
+# Standalone: build the image and run it, talking to a node whose RPC
+# listens on the host (e.g. 127.0.0.1:7076). For running it INSIDE the
+# node's own compose stack, see docker-compose.node.yml.
+services:
+  nano-pulse:
+    build: .
+    image: nano-pulse:latest
+    container_name: nano-pulse
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080" # dashboard, bound to localhost only
+    environment:
+      NODE_RPC_URL: "http://host.docker.internal:7076"
+      REP_ACCOUNT: "nano_3nanopuse3monitorexampeaccount333333333333333333333333333"
+      NP_POLL_INTERVAL: "5s"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

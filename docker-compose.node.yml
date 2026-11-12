@@ -1,0 +1,36 @@
+# Add this service to the SAME docker-compose.yml that runs your Nano node,
+# so nano-pulse starts and stops together with it and reaches the RPC over the
+# compose network. Adjust NODE_HOST to your node's service name and the RPC port.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.node.yml up -d
+#
+services:
+  nano-pulse:
+    image: ghcr.io/jaumebosch/nano-pulse:latest
+    # or build from a checkout:  build: ./nano-pulse
+    container_name: nano-pulse
+    restart: unless-stopped
+    depends_on:
+      - rsnano # <-- your node's service name
+    ports:
+      - "127.0.0.1:8080:8080" # HTTP; or 443:443 for the TLS modes below
+    volumes:
+      - np-data:/data # persists certs (self-signed or Let's Encrypt)
+    environment:
+      NODE_HOST: "rsnano" # <-- your node's service name
+      NODE_RPC_PORT: "7076"
+      REP_ACCOUNT: "nano_your_representative_account"
+      # NODE_LABEL: "mainnet principal rep"
+      # --- pick ONE serving mode ---
+      # (default) plain HTTP on 8080
+      # self-signed HTTPS on 443:
+      # NP_TLS_SELFSIGNED: "true"
+      # Let's Encrypt on 443 (needs a public DNS name + 80/443 open):
+      # NP_TLS_DOMAIN: "your-host.example.com"
+      # NP_TLS_EMAIL: "you@example.com"
+      # --- optional basic auth ---
+      # NP_AUTH_USER: "admin"
+      # NP_AUTH_PASS: "change-me"
+
+volumes:
+  np-data:

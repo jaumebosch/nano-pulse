@@ -1,0 +1,44 @@
+# nano-pulse configuration — copy to nano-pulse.conf and edit.
+# Read by the binary (NP_CONFIG, else ./nano-pulse.conf, else /data/nano-pulse.conf)
+# and usable as a docker-compose env_file. Environment variables override these.
+# Keep active lines as KEY=VALUE with no inline comments (env_file compatibility).
+
+# ---------- node to monitor ----------
+# IP or hostname of the Nano node RPC. Inside a compose stack, use the node's
+# service name (e.g. rsnano). This is the one you usually change.
+NODE_HOST=127.0.0.1
+NODE_RPC_PORT=7076
+# Full URL instead of HOST/PORT (optional, overrides the two above):
+# NODE_RPC_URL=http://127.0.0.1:7076
+# Your representative account — enables the voting-weight panel:
+# REP_ACCOUNT=nano_your_representative_account
+
+# ---------- dashboard ----------
+# Name shown under the title. If empty, the node's own name/version is used.
+# NODE_LABEL=mainnet principal rep
+# NP_TITLE=Nano Pulse
+# NP_DEFAULT_LANG=en
+# Show the gear menu that toggles widgets on/off (true|false):
+# NP_WIDGET_SWITCHES=true
+# Start the dashboard read-only (hides controls):
+# NP_PUBLIC_MODE=false
+NP_POLL_INTERVAL=5s
+
+# ---------- network / TLS ----------
+NP_LISTEN=:8080
+# HTTPS with a self-signed cert (no domain needed; browser warns once):
+# NP_TLS_SELFSIGNED=true
+# HTTPS with Let's Encrypt — needs a public DNS name + ports 80/443 open.
+# Works with a free *.sslip.io / duckdns hostname if you have no domain:
+# NP_TLS_DOMAIN=1-2-3-4.sslip.io
+# NP_TLS_EMAIL=you@example.com
+# NP_TLS_LISTEN=:443
+# SANs for the self-signed cert (IPs or hostnames):
+# NP_TLS_HOSTS=127.0.0.1,localhost
+# Where to persist certs (mount a volume in Docker):
+# NP_TLS_CACHE=/data/certs
+
+# ---------- access control ----------
+# HTTP basic auth — recommended if the panel is reachable from the internet:
+# NP_AUTH_USER=admin
+# NP_AUTH_PASS=change-me

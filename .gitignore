@@ -1,0 +1,13 @@
+# built binary
+/nano-pulse
+
+# local config with real values (keep nano-pulse.conf.example in git)
+/nano-pulse.conf
+
+# certs / runtime data
+/data/
+*.pem
+
+# misc
+*.out
+.DS_Store
