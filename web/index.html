@@ -749,6 +749,7 @@ tick();window.__npDemoTimer=setInterval(tick,reduce?2600:1400);
     if(d.weight_pct!=null)$("#weight").textContent=(+d.weight_pct).toFixed(2);
     if(d.sent_pr!=null)$("#sentpr").textContent=fmt(+d.sent_pr);
     { const sub=document.querySelector(".brand .sub"); if(sub&&(d.label||d.version))sub.textContent=d.label||("rsnano "+d.version); }
+    if(d.rep_account){var ac=document.getElementById("acct");if(ac)ac.textContent=d.rep_account;var ei=document.getElementById("expinput");if(ei&&(!ei.value||ei.value.indexOf("nano_3nanopuse")===0))ei.value=d.rep_account;}
     if(d.online_stake){ const el=document.querySelector('[data-i18n="onlineStake"]'); }
     // derive confirmations/sec from cemented delta between pushes
     const now=Date.now();

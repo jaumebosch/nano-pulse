@@ -222,6 +222,7 @@ type Summary struct {
 	Peers       int64   `json:"peers"`
 	Version     string  `json:"version"`
 	Label       string  `json:"label,omitempty"`
+	RepAccount  string  `json:"rep_account,omitempty"`
 	Uptime      int64   `json:"uptime_seconds"`
 	OnlineStake string  `json:"online_stake"`
 	WeightRaw   string  `json:"weight_raw,omitempty"`
@@ -247,7 +248,7 @@ func weightPct(weightRaw, onlineRaw string) float64 {
 }
 
 func (c config) summarize(ctx context.Context) Summary {
-	s := Summary{Updated: time.Now().UTC().Format(time.RFC3339), Label: c.label}
+	s := Summary{Updated: time.Now().UTC().Format(time.RFC3339), Label: c.label, RepAccount: c.repAcct}
 
 	var bc struct{ Count, Unchecked, Cemented string }
 	if err := c.rpc(ctx, "block_count", nil, &bc); err == nil && bc.Count != "" {
