@@ -190,6 +190,8 @@ body[data-public] [data-private]{display:none}
 .expres .r b{color:var(--fg);font-weight:500}
 #ch-lat{width:100%;display:block}
 /* elections */
+.elec-card{display:flex;flex-direction:column}
+#elections{flex:1;min-height:0;margin-top:8px;overflow:hidden}
 .elec{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;padding:8px 8px;border-radius:10px;border-bottom:1px solid var(--border)}
 .elec:last-child{border-bottom:0}
 .ehash{font-family:var(--font-mono);font-size:12px;color:var(--fg-muted)}
@@ -410,9 +412,9 @@ footer{color:var(--fg-dim);font-size:11.5px;font-family:var(--font-mono);text-al
   </div>
 
   <div class="grid">
-    <div class="card">
+    <div class="card elec-card">
       <h2><span class="dot pulse" style="color:var(--accent)"></span><span data-i18n="liveElections">Live elections</span> <span class="hint" id="elecn">—</span></h2>
-      <div id="elections" style="margin-top:8px"></div>
+      <div id="elections"></div>
     </div>
     <div class="col">
       <div class="card">
@@ -597,7 +599,7 @@ function tick(){
   tc++;
   elections.forEach(e=>{if(!e.ok){e.pct+=rnd(3,15);if(e.pct>=100){e.pct=100;e.ok=true;e.flash=true;e.done=0;}}else{e.done=(e.done||0)+1;}});
   elections=elections.filter(e=>!(e.ok&&e.done>2));
-  while(elections.length<5)elections.push(newElection());
+  const ec=elecCap();while(elections.length<ec)elections.push(newElection());while(elections.length>ec)elections.pop();
   renderElections();
   if(tc%4===0){const wv=rnd(2.04,2.24);chWeight.push(wv);$("#whnow").textContent=wv.toFixed(2)+"%";}
   $("#diskEta").textContent=D.fullIn+" ~3.8y";$("#mapn").textContent=fmt(peers);
@@ -611,6 +613,7 @@ $("#lang").addEventListener("change",e=>setLang(e.target.value));
 /* ---------- live elections ---------- */
 function newElection(){return{h:"#"+((Math.random()*0xffffff)|0).toString(16).toUpperCase().padStart(6,"0"),pct:rnd(6,52),v:Math.round(rnd(40,140)),ok:false};}
 let elections=[];for(let i=0;i<5;i++)elections.push(newElection());
+function elecCap(){const box=$("#elections");if(!box)return 5;const h=box.clientHeight;if(!h)return 5;const first=box.firstElementChild;const rh=first?first.getBoundingClientRect().height:50;return Math.max(4,Math.floor(h/rh));}
 function renderElections(){
   const box=$("#elections");if(!box)return;box.innerHTML="";
   elections.forEach(e=>{const row=document.createElement("div");row.className="elec"+(e.flash?" eflash":"");
